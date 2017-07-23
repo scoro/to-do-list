@@ -1,12 +1,17 @@
 package pl.pollub.task;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 @Data
-public class Task {
+@AllArgsConstructor
 
-    private final int id;
+class Task {
 
-    private final String content;
+    private int id;
+
+    private String content;
+
 
 }

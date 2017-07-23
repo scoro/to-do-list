@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class NewTask {
+class NewTask {
 
     private String content;
+
 
 }
