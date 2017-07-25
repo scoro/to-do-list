@@ -3,6 +3,7 @@ package pl.pollub.task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ public class TaskList {
 
     private final AtomicInteger counter = new AtomicInteger();
 
-    public Task add(NewTask newTask){
+    Task add(NewTask newTask){
         Task created = new Task(generateId(), newTask.getContent());
         tasks.add(created);
         return created;
@@ -24,7 +25,11 @@ public class TaskList {
         return counter.incrementAndGet();
     }
 
-    public List<Task> getAllTasks() {
+    List<Task> getAllTasks() {
         return tasks;
+    }
+
+    boolean deleteById(int givenId){
+        return tasks.removeIf((task) -> task.getId()==givenId);
     }
 }
