@@ -43,7 +43,7 @@ public class TaskListTest {
         taskList.deleteById(task.getId());
         //then: i cant remove it again
         assertFalse("you can remove same task twice",taskList.deleteById(task.getId()));
-        assertFalse("you can remove item which is not even on the list",taskList.deleteById(notOnListTask.getId()));
+        assertFalse("you can remove item which is not on the list",taskList.deleteById(notOnListTask.getId()));
     }
 
 }
