@@ -1,7 +1,11 @@
 package pl.pollub.task;
 
-/**
- * Created by Jarek on 2017-07-28.
- */
+import lombok.Data;
+
+@Data
 public class UpdateTask {
+
+    private final int id;
+
+    private final String content;
 }
