@@ -17,4 +17,9 @@ public class NewCoWorker {
         tasksIds=new HashSet<>();
     }
 
+    public NewCoWorker(String name, int id) {
+        this.name=name;
+        tasksIds=new HashSet<>();
+        tasksIds.add(id);
+    }
 }

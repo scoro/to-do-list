@@ -42,12 +42,17 @@ public class CoWorker {
     }
 
     public void deleteTask(Task task){
-        tasks.remove(task);
         task.getCoWorkers().remove(this);
+        tasks.remove(task);
     }
 
     public void deleteTasks(Set<Task> tasks){
-        this.tasks.removeAll(tasks);
         tasks.forEach(task -> task.getCoWorkers().remove(this));
+        this.tasks.removeAll(tasks);
+    }
+
+    public void deleteAllTasks(){
+        tasks.forEach(task -> task.getCoWorkers().remove(this));
+        tasks.clear();
     }
 }

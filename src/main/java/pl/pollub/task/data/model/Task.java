@@ -24,12 +24,12 @@ public class Task {
         this.id=id;
         this.content=content;
         this.coWorkers=coWorkers;
-        coWorkers.forEach(coWorker -> coWorker.addTask(this));
+        coWorkers.forEach(coWorker -> coWorker.getTasks().add(this));
     }
 
     public void setCoWorkers(Set<CoWorker> coWorkers){
         this.coWorkers=coWorkers;
-        coWorkers.forEach(coWorker -> coWorker.addTask(this));
+        coWorkers.forEach(coWorker -> coWorker.getTasks().add(this));
     }
 
     public void addCoWorker(CoWorker coWorker){
@@ -43,13 +43,17 @@ public class Task {
     }
 
     public void deleteCoWorker(CoWorker coWorker){
-        coWorkers.remove(coWorker);
         coWorker.getTasks().remove(this);
+        coWorkers.remove(coWorker);
     }
 
     public void deleteCoWorkers(Set<CoWorker> coWorkers){
-        this.coWorkers.removeAll(coWorkers);
         coWorkers.forEach(coWorker -> coWorker.getTasks().remove(this));
+        this.coWorkers.removeAll(coWorkers);
     }
 
+    public void deleteAllCoWorkers(){
+        coWorkers.forEach(coWorker -> coWorker.getTasks().remove(this));
+        coWorkers.clear();
+    }
 }

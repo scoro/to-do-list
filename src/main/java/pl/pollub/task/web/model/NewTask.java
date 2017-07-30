@@ -19,4 +19,9 @@ public class NewTask {
         coWorkersIds=new HashSet<>();
     }
 
+    public NewTask(String content, int id) {
+        this.content=content;
+        coWorkersIds=new HashSet<>();
+        coWorkersIds.add(id);
+    }
 }

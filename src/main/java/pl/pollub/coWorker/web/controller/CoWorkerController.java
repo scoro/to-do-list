@@ -83,4 +83,9 @@ public class CoWorkerController {
     CoWorker deleteCoWorkerFromTask(@PathVariable int coWorkerId, @PathVariable int taskId){
         return coWorkerRepository.deleteCoWorkerFromTask(coWorkerId,taskId);
     }
+
+    @RequestMapping(value= "getCoWorkers/{taskId}", method = RequestMethod.GET)
+    public Set<CoWorker> getAllCoWorkersOfTask(int id){
+        return coWorkerRepository.getAllCoWorkersOfTask(id);
+    }
 }

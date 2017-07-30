@@ -5,6 +5,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.pollub.coWorker.data.model.CoWorker;
 import pl.pollub.task.web.model.UpdateTask;
 import pl.pollub.task.web.model.NewTask;
 import pl.pollub.task.data.model.Task;
@@ -84,5 +85,11 @@ public class TaskController {
     @RequestMapping(value= "deleteCoWorker/{coWorkerId}/fromTask/{taskId}", method = RequestMethod.PUT)
     public @ResponseBody Task deleteCoWorkerFromTask(@PathVariable int coWorkerId, @PathVariable int taskId){
         return taskRepository.deleteCoWorkerFromTask(coWorkerId,taskId);
+    }
+
+    @RequestMapping(value= "getTasks/{coWorkerId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Set<Task> getAllTasksOfCoWorker(@PathVariable int coWorkerId){
+        return taskRepository.getAllTaskOfCoWorker(coWorkerId);
     }
 }
