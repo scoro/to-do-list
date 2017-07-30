@@ -1,15 +1,13 @@
 package pl.pollub.coWorker.web.model;
 
 import lombok.Data;
-import pl.pollub.task.data.model.Task;
-
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class NewCoWorker {
 
     private String name;
 
-    private List<Integer> tasksIds;
+    private Set<Integer> tasksIds;
 
 }

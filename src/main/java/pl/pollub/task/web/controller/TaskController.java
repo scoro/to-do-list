@@ -1,6 +1,6 @@
 package pl.pollub.task.web.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,18 +28,19 @@ public class TaskController {
     }
 
     @RequestMapping(value="addMany",method = RequestMethod.POST)
-    public @ResponseBody List<Task> addTasks(@RequestBody List<NewTask> newTasks) {return taskRepository.add(newTasks);}
+    public @ResponseBody
+    Set<Task> addTasks(@RequestBody Set<NewTask> newTasks) {return taskRepository.add(newTasks);}
 
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     public @ResponseBody Task getTask(@PathVariable int id) { return taskRepository.getTask(id);}
 
     @RequestMapping(value="getMany",method = RequestMethod.GET)
-    public @ResponseBody List<Task> getTasks(@RequestBody List<Integer> ids) {
+    public @ResponseBody Set<Task> getTasks(@RequestBody Set<Integer> ids) {
         return taskRepository.getTasks(ids);
     }
 
     @RequestMapping(value="getAll",method = RequestMethod.GET)
-    public @ResponseBody List<Task> getAllTasks() {
+    public @ResponseBody Set<Task> getAllTasks() {
         return taskRepository.getAllTasks();
     }
 
@@ -47,7 +48,7 @@ public class TaskController {
     public @ResponseBody Task deleteTask(@PathVariable int id){return taskRepository.delete(id);}
 
     @RequestMapping(value = "deleteMany", method = RequestMethod.DELETE)
-    public @ResponseBody List<Task> deleteTasks(@RequestBody List<Integer> ids){return taskRepository.delete(ids);}
+    public @ResponseBody Set<Task> deleteTasks(@RequestBody Set<Integer> ids){return taskRepository.delete(ids);}
 
     @RequestMapping(value = "deleteAll", method = RequestMethod.DELETE)
     public @ResponseBody void deleteAllTasks(){
@@ -57,13 +58,13 @@ public class TaskController {
     public @ResponseBody Task updateTaskContent(@RequestBody UpdateTask updateTask){return taskRepository.update(updateTask);}
 
     @RequestMapping(value = "updateMany", method = RequestMethod.PUT)
-    public @ResponseBody List<Task> updateTasksContent(@RequestBody List<UpdateTask> updateTasks){return taskRepository.update(updateTasks);}
+    public @ResponseBody Set<Task> updateTasksContent(@RequestBody Set<UpdateTask> updateTasks){return taskRepository.update(updateTasks);}
 
     @RequestMapping(value = "switchDone/{id}",method = RequestMethod.PUT)
     public @ResponseBody Task switchTaskDone(@PathVariable int id){return taskRepository.switchTaskDone(id);}
 
     @RequestMapping(value = "switchDoneMany",method = RequestMethod.PUT)
-    public @ResponseBody List<Task> switchTasksDone(@RequestBody List<Integer> ids){return taskRepository.switchTaskDone(ids);}
+    public @ResponseBody Set<Task> switchTasksDone(@RequestBody Set<Integer> ids){return taskRepository.switchTaskDone(ids);}
 
     @RequestMapping(value= "addCoWorker/{coWorkerId}/toTask/{taskId}")
     public @ResponseBody Task addCoWorkerToTask(@PathVariable int coWorkerId, @PathVariable int taskId){
@@ -71,7 +72,7 @@ public class TaskController {
     }
 
     @RequestMapping(value= "addManyCoWorker/{taskId}")
-    public @ResponseBody Task addCoWorkersToTask(@PathVariable int taskId, @RequestBody List<Integer> coWorkersIds){
+    public @ResponseBody Task addCoWorkersToTask(@PathVariable int taskId, @RequestBody Set<Integer> coWorkersIds){
         return taskRepository.addCoWorkersToTask(taskId,coWorkersIds);
     }
 
@@ -81,7 +82,7 @@ public class TaskController {
     }
 
     @RequestMapping(value= "addManyCoWorker/{taskId}")
-    public @ResponseBody Task deleteCoWorkersFromTask(@PathVariable int taskId, @RequestBody List<Integer> coWorkersIds){
+    public @ResponseBody Task deleteCoWorkersFromTask(@PathVariable int taskId, @RequestBody Set<Integer> coWorkersIds){
         return taskRepository.deleteCoWorkersFromTask(taskId,coWorkersIds);
     }
 }

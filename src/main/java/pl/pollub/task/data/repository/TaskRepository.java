@@ -1,7 +1,7 @@
 package pl.pollub.task.data.repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -18,7 +18,7 @@ public class TaskRepository {
 
     private final CoWorkerRepository coWorkerRepository;
 
-    private final List<Task> tasks = new ArrayList<>();
+    private final Set<Task> tasks = new HashSet<>();
 
     private final AtomicInteger counter = new AtomicInteger();
 
@@ -37,10 +37,10 @@ public class TaskRepository {
         return created;
     }
 
-    public List<Task> add(List<NewTask> newTasks) {
+    public Set<Task> add(Set<NewTask> newTasks) {
         return newTasks.stream()
                 .map(newTask -> new Task(generateId(), newTask.getContent(), false, coWorkerRepository.getCoWorkers(newTask.getCoWorkersIds())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public Task getTask(int id) {
@@ -48,11 +48,11 @@ public class TaskRepository {
                 .orElseThrow(() -> {throw new EntityNotFoundException(Task.class.getSimpleName(),id);});
     }
 
-    public List<Task> getTasks(List<Integer> ids) {
-        return tasks.stream().filter(task -> ids.contains(task.getId())).collect(Collectors.toList());
+    public Set<Task> getTasks(Set<Integer> ids) {
+        return tasks.stream().filter(task -> ids.contains(task.getId())).collect(Collectors.toSet());
     }
 
-    public List<Task> getAllTasks() {
+    public Set<Task> getAllTasks() {
         return tasks;
     }
 
@@ -63,8 +63,8 @@ public class TaskRepository {
         return taskToDelete;
     }
 
-    public List<Task> delete(List<Integer> ids) {
-        List<Task> tasksToDelete=tasks.stream().filter(task ->ids.contains(task.getId())).collect(Collectors.toList());
+    public Set<Task> delete(Set<Integer> ids) {
+        Set<Task> tasksToDelete=tasks.stream().filter(task ->ids.contains(task.getId())).collect(Collectors.toSet());
         tasks.removeAll(tasksToDelete);
         return tasksToDelete;
     }
@@ -80,15 +80,15 @@ public class TaskRepository {
         return taskToUpdate;
     }
 
-    public List<Task> update(List<UpdateTask> updateTasks) {
-        List<Integer> updateTasksIds=updateTasks.stream().map(UpdateTask::getId).collect(Collectors.toList());
+    public Set<Task> update(Set<UpdateTask> updateTasks) {
+        Set<Integer> updateTasksIds=updateTasks.stream().map(UpdateTask::getId).collect(Collectors.toSet());
         return tasks.stream().map(task -> {
             if(updateTasksIds.contains(task.getId()))
                 task.setContent(updateTasks.stream()
                         .filter(updateTask -> updateTask.getId()==task.getId()).findFirst()
                         .orElseThrow(() -> {throw new EntityNotFoundException(Task.class.getSimpleName(),task.getId());}).getContent());
             return task;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
     }
 
     public Task switchTaskDone(int id) {
@@ -98,38 +98,38 @@ public class TaskRepository {
         return taskToSwitchDoneField;
     }
 
-    public List<Task> switchTaskDone(List<Integer> ids) {
+    public Set<Task> switchTaskDone(Set<Integer> ids) {
         return tasks.stream().filter(task -> ids.contains(task.getId()))
                 .map(task -> {task.setDone(!task.isDone());
                 return task;
-                }).collect(Collectors.toList());
+                }).collect(Collectors.toSet());
     }
 
     public Task addCoWorkerToTask(int coWorkerId, int taskId) {
         Task taskToAddCoWorker=tasks.stream().filter(task -> task.getId()==taskId).findFirst()
                 .orElseThrow(() -> {throw new EntityNotFoundException(Task.class.getSimpleName(),taskId);});
-        taskToAddCoWorker.getCoWorkers().add(coWorkerRepository.getCoWorker(coWorkerId));
+        taskToAddCoWorker.addCoWorker(coWorkerRepository.getCoWorker(coWorkerId));
         return taskToAddCoWorker;
     }
 
-    public Task addCoWorkersToTask(int taskId, List<Integer> coWorkersIds) {
+    public Task addCoWorkersToTask(int taskId, Set<Integer> coWorkersIds) {
         Task taskToAddCoWorkers=tasks.stream().filter(task -> task.getId()==taskId).findFirst()
                 .orElseThrow(() -> {throw new EntityNotFoundException(Task.class.getSimpleName(),taskId);});
-        taskToAddCoWorkers.getCoWorkers().addAll(coWorkerRepository.getCoWorkers(coWorkersIds));
+        taskToAddCoWorkers.addCoWorkers(coWorkerRepository.getCoWorkers(coWorkersIds));
         return taskToAddCoWorkers;
     }
 
     public Task deleteCoWorkerFromTask(int coWorkerId, int taskId) {
         Task taskToDeleteCoWorker=tasks.stream().filter(task -> task.getId()==taskId).findFirst()
                 .orElseThrow(() -> {throw new EntityNotFoundException(Task.class.getSimpleName(),taskId);});
-        taskToDeleteCoWorker.getCoWorkers().remove(coWorkerRepository.getCoWorker(coWorkerId));
+        taskToDeleteCoWorker.deleteCoWorker(coWorkerRepository.getCoWorker(coWorkerId));
         return taskToDeleteCoWorker;
     }
 
-    public Task deleteCoWorkersFromTask(int taskId, List<Integer> coWorkersIds) {
+    public Task deleteCoWorkersFromTask(int taskId, Set<Integer> coWorkersIds) {
         Task taskToDeleteCoWorkers=tasks.stream().filter(task -> task.getId()==taskId).findFirst()
                 .orElseThrow(() -> {throw new EntityNotFoundException(Task.class.getSimpleName(),taskId);});
-        taskToDeleteCoWorkers.getCoWorkers().removeAll(coWorkerRepository.getCoWorkers(coWorkersIds));
+        taskToDeleteCoWorkers.deleteCoWorkers(coWorkerRepository.getCoWorkers(coWorkersIds));
         return taskToDeleteCoWorkers;
     }
 }

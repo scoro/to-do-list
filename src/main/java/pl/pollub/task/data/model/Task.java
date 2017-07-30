@@ -1,13 +1,15 @@
 package pl.pollub.task.data.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import pl.pollub.coWorker.data.model.CoWorker;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
-@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Task {
 
     private final int id;
@@ -16,6 +18,38 @@ public class Task {
 
     private boolean done;
 
-    private List<CoWorker> coWorkers;
+    private Set<CoWorker> coWorkers;
+
+    public Task(int id, String content, boolean done, Set<CoWorker> coWorkers){
+        this.id=id;
+        this.content=content;
+        this.coWorkers=coWorkers;
+        coWorkers.forEach(coWorker -> coWorker.addTask(this));
+    }
+
+    public void setCoWorkers(Set<CoWorker> coWorkers){
+        this.coWorkers=coWorkers;
+        coWorkers.forEach(coWorker -> coWorker.addTask(this));
+    }
+
+    public void addCoWorker(CoWorker coWorker){
+        coWorkers.add(coWorker);
+        coWorker.addTask(this);
+    }
+
+    public void addCoWorkers(Set<CoWorker> coWorkers){
+        this.coWorkers.addAll(coWorkers);
+        coWorkers.forEach(coWorker -> coWorker.addTask(this));
+    }
+
+    public void deleteCoWorker(CoWorker coWorker){
+        coWorkers.remove(coWorker);
+        coWorker.deleteTask(this);
+    }
+
+    public void deleteCoWorkers(Set<CoWorker> coWorkers){
+        this.coWorkers.removeAll(coWorkers);
+        coWorkers.forEach(coWorker -> coWorker.deleteTask(this));
+    }
 
 }

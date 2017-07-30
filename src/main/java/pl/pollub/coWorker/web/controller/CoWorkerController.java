@@ -8,7 +8,8 @@ import pl.pollub.coWorker.web.model.NewCoWorker;
 import pl.pollub.coWorker.web.model.UpdateCoWorker;
 import pl.pollub.coWorker.data.repository.CoWorkerRepository;
 
-import java.util.List;
+import java.util.Set;
+
 
 @Controller
 @RequestMapping("/coWorker")
@@ -29,19 +30,19 @@ public class CoWorkerController {
 
     @RequestMapping(value="addMany",method = RequestMethod.POST)
     public @ResponseBody
-    List<CoWorker> addCoWorkers(@RequestBody List<NewCoWorker> newCoWorkers) {return coWorkerRepository.add(newCoWorkers);}
+    Set<CoWorker> addCoWorkers(@RequestBody Set<NewCoWorker> newCoWorkers) {return coWorkerRepository.add(newCoWorkers);}
 
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     public @ResponseBody
     CoWorker getCoWorker(@PathVariable int id) { return coWorkerRepository.getCoWorker(id);}
 
     @RequestMapping(value="getMany",method = RequestMethod.GET)
-    public @ResponseBody List<CoWorker> getCoWorker(@RequestBody List<Integer> ids) {
+    public @ResponseBody Set<CoWorker> getCoWorker(@RequestBody Set<Integer> ids) {
         return coWorkerRepository.getCoWorkers(ids);
     }
 
     @RequestMapping(value="getAll",method = RequestMethod.GET)
-    public @ResponseBody List<CoWorker> getAllCoWorkers() {
+    public @ResponseBody Set<CoWorker> getAllCoWorkers() {
         return coWorkerRepository.getAllCoWorkers();
     }
 
@@ -49,7 +50,7 @@ public class CoWorkerController {
     public @ResponseBody CoWorker deleteCoWorker(@PathVariable int id){return coWorkerRepository.delete(id);}
 
     @RequestMapping(value = "deleteMany", method = RequestMethod.DELETE)
-    public @ResponseBody List<CoWorker> deleteCoWorkers(@RequestBody List<Integer> ids){return coWorkerRepository.delete(ids);}
+    public @ResponseBody Set<CoWorker> deleteCoWorkers(@RequestBody Set<Integer> ids){return coWorkerRepository.delete(ids);}
 
     @RequestMapping(value = "deleteMany", method = RequestMethod.DELETE)
     public @ResponseBody void deleteAllCoWorkers(){
@@ -59,7 +60,7 @@ public class CoWorkerController {
     public @ResponseBody CoWorker updateCoWorker(@RequestBody UpdateCoWorker updateCoWorker){return coWorkerRepository.update(updateCoWorker);}
 
     @RequestMapping(value = "updateMany", method = RequestMethod.PUT)
-    public @ResponseBody List<CoWorker> updateCoWorkers(@RequestBody List<UpdateCoWorker> updateCoWorker){return coWorkerRepository.update(updateCoWorker);}
+    public @ResponseBody Set<CoWorker> updateCoWorkers(@RequestBody Set<UpdateCoWorker> updateCoWorker){return coWorkerRepository.update(updateCoWorker);}
 
     @RequestMapping(value= "addTask/{taskId}/toCoWorker/{coWorkerId}")
     public @ResponseBody
@@ -68,7 +69,7 @@ public class CoWorkerController {
     }
 
     @RequestMapping(value= "addManyTasks/{coWorkerId}")
-    public @ResponseBody CoWorker addCoWorkersToTask(@PathVariable int coWorkerId, @RequestBody List<Integer> tasksIds){
+    public @ResponseBody CoWorker addCoWorkersToTask(@PathVariable int coWorkerId, @RequestBody Set<Integer> tasksIds){
         return coWorkerRepository.addCoWorkersToTask(coWorkerId,tasksIds);
     }
 
@@ -79,7 +80,7 @@ public class CoWorkerController {
     }
 
     @RequestMapping(value= "addManyTasks/{coWorkerId}")
-    public @ResponseBody CoWorker deleteCoWorkersFromTask(@PathVariable int coWorkerId, @RequestBody List<Integer> tasksIds){
+    public @ResponseBody CoWorker deleteCoWorkersFromTask(@PathVariable int coWorkerId, @RequestBody Set<Integer> tasksIds){
         return coWorkerRepository.deleteCoWorkersFromTask(coWorkerId,tasksIds);
     }
 }
