@@ -1,4 +1,4 @@
-package pl.pollub.task;
+package pl.pollub.task.web.model;
 
 import lombok.Data;
 

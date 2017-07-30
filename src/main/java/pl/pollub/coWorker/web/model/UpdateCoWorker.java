@@ -1,16 +1,12 @@
-package pl.pollub.task;
+package pl.pollub.coWorker.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Task {
-
+public class UpdateCoWorker {
     private final int id;
 
-    private String content;
-
-    private boolean done;
-
+    private String name;
 }
