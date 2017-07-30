@@ -16,16 +16,12 @@ import java.util.stream.Collectors;
 @Component
 public class CoWorkerRepository {
 
-    private final TaskRepository taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
     private final Set<CoWorker> coWorkers = new HashSet<>();
 
     private final AtomicInteger counter = new AtomicInteger();
-
-    @Autowired
-    public CoWorkerRepository(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
 
     private int generateId() {
         return counter.incrementAndGet();
@@ -44,10 +40,10 @@ public class CoWorkerRepository {
     }
 
 
-    public CoWorker getCoWorker(int id) {
+    public CoWorker getCoWorker(int id){
         return coWorkers.stream().filter(coWorker -> coWorker.getId()==id)
                 .findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),id);});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),id));
     }
 
 
@@ -62,7 +58,7 @@ public class CoWorkerRepository {
 
     public CoWorker delete(int id) {
         CoWorker coWorkerToDelete=coWorkers.stream().filter(coWorker -> coWorker.getId()==id).findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),id);});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),id));
         coWorkers.remove(coWorkerToDelete);
         return coWorkerToDelete;
     }
@@ -79,7 +75,7 @@ public class CoWorkerRepository {
 
     public CoWorker update(UpdateCoWorker updateCoWorker) {
         CoWorker coWorkerToUpdate=coWorkers.stream().filter(coWorker -> coWorker.getId()==updateCoWorker.getId()).findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),updateCoWorker.getId());});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),updateCoWorker.getId()));
         coWorkerToUpdate.setName(updateCoWorker.getName());
         return coWorkerToUpdate;
     }
@@ -101,28 +97,28 @@ public class CoWorkerRepository {
 
     public CoWorker addTaskToCoWorker(int coWorkerId, int taskId) {
         CoWorker coWorkerToAddTask=coWorkers.stream().filter(coWorker -> coWorker.getId()==coWorkerId).findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId);});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId));
         coWorkerToAddTask.addTask(taskRepository.getTask(taskId));
         return coWorkerToAddTask;
     }
 
     public CoWorker addCoWorkersToTask(int coWorkerId, Set<Integer> tasksIds) {
         CoWorker coWorkerToAddTasks=coWorkers.stream().filter(coWorker -> coWorker.getId()==coWorkerId).findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId);});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId));
         coWorkerToAddTasks.addTasks(taskRepository.getTasks(tasksIds));
         return coWorkerToAddTasks;
     }
 
     public CoWorker deleteCoWorkerFromTask(int coWorkerId, int taskId) {
         CoWorker coWorkerToDeleteTask=coWorkers.stream().filter(coWorker -> coWorker.getId()==coWorkerId).findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId);});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId));
         coWorkerToDeleteTask.deleteTask(taskRepository.getTask(taskId));
         return coWorkerToDeleteTask;
     }
 
     public CoWorker deleteCoWorkersFromTask(int coWorkerId, Set<Integer> tasksIds) {
         CoWorker coWorkerToDeleteTasks=coWorkers.stream().filter(coWorker -> coWorker.getId()==coWorkerId).findFirst()
-                .orElseThrow(() ->{throw new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId);});
+                .orElseThrow(() ->new EntityNotFoundException(CoWorker.class.getSimpleName(),coWorkerId));
         coWorkerToDeleteTasks.deleteTasks(taskRepository.getTasks(tasksIds));
         return coWorkerToDeleteTasks;
     }

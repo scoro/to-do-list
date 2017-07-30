@@ -8,8 +8,8 @@ import pl.pollub.coWorker.data.model.CoWorker;
 import java.util.Set;
 
 @Data
-@ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "coWorkers")
+@ToString(exclude = "coWorkers")
 public class Task {
 
     private final int id;
@@ -34,22 +34,22 @@ public class Task {
 
     public void addCoWorker(CoWorker coWorker){
         coWorkers.add(coWorker);
-        coWorker.addTask(this);
+        coWorker.getTasks().add(this);
     }
 
     public void addCoWorkers(Set<CoWorker> coWorkers){
         this.coWorkers.addAll(coWorkers);
-        coWorkers.forEach(coWorker -> coWorker.addTask(this));
+        coWorkers.forEach(coWorker -> coWorker.getTasks().add(this));
     }
 
     public void deleteCoWorker(CoWorker coWorker){
         coWorkers.remove(coWorker);
-        coWorker.deleteTask(this);
+        coWorker.getTasks().remove(this);
     }
 
     public void deleteCoWorkers(Set<CoWorker> coWorkers){
         this.coWorkers.removeAll(coWorkers);
-        coWorkers.forEach(coWorker -> coWorker.deleteTask(this));
+        coWorkers.forEach(coWorker -> coWorker.getTasks().remove(this));
     }
 
 }

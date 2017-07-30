@@ -9,8 +9,8 @@ import java.util.Set;
 
 
 @Data
-@ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "tasks")
+@ToString(exclude = "tasks")
 public class CoWorker {
 
     private final int id;
@@ -33,21 +33,21 @@ public class CoWorker {
 
     public void addTask(Task task){
         tasks.add(task);
-        task.addCoWorker(this);
+        task.getCoWorkers().add(this);
     }
 
     public void addTasks(Set<Task> tasks){
         this.tasks.addAll(tasks);
-        tasks.forEach(task -> task.addCoWorker(this));
+        tasks.forEach(task -> task.getCoWorkers().add(this));
     }
 
     public void deleteTask(Task task){
         tasks.remove(task);
-        task.deleteCoWorker(this);
+        task.getCoWorkers().remove(this);
     }
 
     public void deleteTasks(Set<Task> tasks){
         this.tasks.removeAll(tasks);
-        tasks.forEach(task -> task.deleteCoWorker(this));
+        tasks.forEach(task -> task.getCoWorkers().remove(this));
     }
 }
