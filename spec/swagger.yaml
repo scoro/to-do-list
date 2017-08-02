@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: ToDo list application
+  description: A simple application to make list of todos.
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /tasks:
+    get:
+      summary: Returns all tasks from the system
+      operationId: getAllTasks
+      responses:
+        "200":
+          description: task response
+          schema:
+            type: array
+            items:
+              $ref: 'models/Task.yaml'
+    post:
+      summary: Add a new task to the list
+      operationId: addTask
+      parameters:
+        - name: task
+        in: body
+        description: task to add to the list
+        required: true
+        schema:
+          $ref: 'models/NewTask.yaml'
+      responses:
+        "201":
+          description: Task created response
+          schema:
+            $ref: 'models/Task.yaml'
+  /tasks/{id}:
+    get:
+      description: Returns a task based on a single given id
+      operationId: getTask
+      parameters:
+        - name: id
+        in: path
+        description: id of task to fetch
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: task Response
+          schema:
+            $ref: 'models/Task.yaml'
+        "404":
+          description: task not found
+    delete:
+      description: delete a single note based on the ID supplied
+      operationId: deleteTask
+      parameters:
+        - name: id
+          in: path
+          description: id of task to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Task deleted
+
+
+
+

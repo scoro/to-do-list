@@ -11,7 +11,7 @@ import javax.validation.constraints.Null;
 
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -25,7 +25,7 @@ public class TaskController {
     @RequestMapping(
             method = RequestMethod.POST)
     public ResponseEntity<Task> addTask(@RequestBody NewTask newTask) {
-        return new ResponseEntity<Task>(taskService.saveTask(newTask),HttpStatus.OK);
+        return new ResponseEntity<Task>(taskService.saveTask(newTask),HttpStatus.CREATED);
     }
 
     @RequestMapping(
@@ -33,7 +33,7 @@ public class TaskController {
             method = RequestMethod.GET)
     public ResponseEntity<Task> getTask(@PathVariable("id") int id) {
         Task task = taskService.getTaskById(id);
-        return task != null ? new ResponseEntity<Task>(taskService.getTaskById(id), HttpStatus.OK) : new ResponseEntity<Task>(HttpStatus.NO_CONTENT);
+        return task != null ? new ResponseEntity<Task>(taskService.getTaskById(id), HttpStatus.OK) : new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(
@@ -48,4 +48,6 @@ public class TaskController {
     public ResponseEntity deleteTask(@PathVariable("id") int id){
         return taskService.deleteById(id) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
+
+    //TODO: Task update
 }
