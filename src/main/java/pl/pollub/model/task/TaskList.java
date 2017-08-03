@@ -1,11 +1,11 @@
-package pl.pollub.task;
+package pl.pollub.model.task;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.pollub.model.task.DTO.TaskDTO;
 
 @Component
 public class TaskList {
@@ -14,17 +14,21 @@ public class TaskList {
 
     private final AtomicInteger counter = new AtomicInteger();
 
-    public Task add(NewTask newTask){
-        Task created = new Task(generateId(), newTask.getContent());
+    /*public Task add(TaskDTO taskDTO){
+        Task created = new Task(generateId(), taskDTO.getContent());
         tasks.add(created);
         return created;
     }
-
+*/
     private int generateId() {
         return counter.incrementAndGet();
     }
 
     public List<Task> getAllTasks() {
         return tasks;
+    }
+
+    public Task add(TaskDTO taskDTO) {
+        return null;
     }
 }
