@@ -1,4 +1,4 @@
-package pl.pollub.task2;
+package pl.pollub.task.user;
 
 public interface UserService {
 
