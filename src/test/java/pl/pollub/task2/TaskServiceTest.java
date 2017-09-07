@@ -1,8 +1,6 @@
 package pl.pollub.task2;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,6 +41,9 @@ public class TaskServiceTest {
         HashSet<String> expected = new HashSet<>(Arrays.asList("user1@wp.pl", "user2@wp.pl", "user3@wp.pl"));
 
         Assert.assertEquals(expected, notified);
+
+        Collection<Integer> col = Arrays.asList(1,2,2,3,4,5);
+        Assert.assertEquals(5, col.size());
     }
 
 }
