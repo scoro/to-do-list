@@ -1,6 +1,8 @@
 package pl.pollub.task2;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,13 +14,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class TaskServiceTest {
 
     @Mock
-    UserService userService;
+    private UserService userService;
 
     @Mock
-    EmailNotifier emailNotifier;
+    private EmailNotifier emailNotifier;
 
     @InjectMocks
-    TaskService taskService;
+    private TaskService taskService;
 
     @Captor
     private ArgumentCaptor<List<String>> emailsCaptor;
@@ -41,9 +43,6 @@ public class TaskServiceTest {
         HashSet<String> expected = new HashSet<>(Arrays.asList("user1@wp.pl", "user2@wp.pl", "user3@wp.pl"));
 
         Assert.assertEquals(expected, notified);
-
-        Collection<Integer> col = Arrays.asList(1,2,2,3,4,5);
-        Assert.assertEquals(5, col.size());
     }
 
 }
